@@ -1,5 +1,8 @@
 [package]
 name = "frida-rs"
+description = "Write Frida scripts in Rust"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/Ayrx/frida-rs"
 version = "0.1.0"
 authors = ["Terry Chia <terrycwk1994@gmail.com>"]
 edition = "2018"
