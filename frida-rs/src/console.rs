@@ -1,3 +1,4 @@
+#![doc(hidden)]
 pub use frida_rs_sys::console::{error, log, warn};
 
 ///Write to the console of a Frida-based application.
