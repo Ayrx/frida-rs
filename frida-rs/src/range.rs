@@ -10,7 +10,7 @@ pub struct RangeDetails {
 impl From<frida_rs_sys::range::RangeDetails> for RangeDetails {
     fn from(m: frida_rs_sys::range::RangeDetails) -> Self {
         RangeDetails {
-            base: m.base(),
+            base: NativePointer::from_sys(m.base()),
             size: m.size(),
             protection: m.protection(),
             file: m.file().map(|s| FileMapping::from(s)),

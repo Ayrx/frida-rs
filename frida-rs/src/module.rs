@@ -20,7 +20,7 @@ pub fn get_base_address(name: &str) -> Option<NativePointer> {
         return None;
     }
 
-    Some(ret)
+    Some(NativePointer::from_sys(ret))
 }
 
 ///Get the absolute address of the export named `export_name`.
@@ -34,7 +34,7 @@ pub fn get_export(export_name: &str) -> Option<NativePointer> {
         return None;
     }
 
-    Some(ret)
+    Some(NativePointer::from_sys(ret))
 }
 
 //// // TODO: This is not actually finding any exports and appears to be a Frida
@@ -70,7 +70,7 @@ impl From<module::Module> for Module {
     fn from(m: module::Module) -> Self {
         Module {
             name: m.name(),
-            base: m.base(),
+            base: NativePointer::from_sys(m.base()),
             size: m.size(),
             path: m.path(),
             _ref: m,
@@ -173,7 +173,7 @@ impl From<module::ExportDetails> for ExportDetails {
         ExportDetails {
             export_type: m.export_type(),
             name: m.name(),
-            address: m.address(),
+            address: NativePointer::from_sys(m.address()),
         }
     }
 }
@@ -192,8 +192,8 @@ impl From<module::ImportDetails> for ImportDetails {
             import_type: m.import_type(),
             name: m.name(),
             module: m.module(),
-            address: m.address(),
-            slot: m.slot(),
+            address: m.address().map(|s| NativePointer::from_sys(s)),
+            slot: m.slot().map(|s| NativePointer::from_sys(s)),
         }
     }
 }
@@ -214,7 +214,7 @@ impl From<module::SymbolDetails> for SymbolDetails {
             symbol_type: m.symbol_type(),
             section: m.section().map(|s| SymbolSectionDetails::from(s)),
             name: m.name(),
-            address: m.address(),
+            address: NativePointer::from_sys(m.address()),
             size: m.size(),
         }
     }

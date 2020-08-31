@@ -54,7 +54,7 @@ pub fn runtime() -> &'static str {
 ///
 ///This is equivalent to calling `hexdump` in the JavaScript API.
 pub fn hexdump(target: &nativepointer::NativePointer) -> String {
-    frida_rs_sys::frida::hexdump(target)
+    frida_rs_sys::frida::hexdump(&target.to_sys())
 }
 
 ///Generate a hexdump for the provided `target`.

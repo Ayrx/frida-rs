@@ -61,7 +61,7 @@ impl InvocationContext {
 impl From<interceptor::InvocationContext> for InvocationContext {
     fn from(m: interceptor::InvocationContext) -> Self {
         InvocationContext {
-            return_address: m.return_address(),
+            return_address: NativePointer::from_sys(m.return_address()),
             context: crate::cpu::CpuContext::from(m.context()),
             thread_id: m.thread_id(),
             depth: m.depth(),
@@ -135,5 +135,5 @@ pub fn attach(target: NativePointer, callbacks: InvocationCallbacks) {
         on_leave.forget();
     }
 
-    interceptor::attach(target, callbacks_object);
+    interceptor::attach(target.to_sys(), callbacks_object);
 }

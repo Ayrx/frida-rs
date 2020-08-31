@@ -120,7 +120,7 @@ pub fn get_module_by_name(name: &str) -> Option<module::Module> {
 ///This is the equivalent to calling `Process.findModuleByAddress()` /
 ///`Process.getModuleByAddress()` in the JavaScript API.
 pub fn get_module_by_address(address: &nativepointer::NativePointer) -> Option<module::Module> {
-    let ret = process::get_module_by_address(&address);
+    let ret = process::get_module_by_address(&address.to_sys());
 
     if ret.is_null() {
         return None;
@@ -134,7 +134,7 @@ pub fn get_module_by_address(address: &nativepointer::NativePointer) -> Option<m
 ///This is the equivalent to calling `Process.findRangeByAddress()` /
 ///`Process.getRangeByAddress()` in the JavaScript API.
 pub fn get_range_by_address(address: &nativepointer::NativePointer) -> Option<RangeDetails> {
-    let ret = process::get_range_by_address(&address);
+    let ret = process::get_range_by_address(&address.to_sys());
 
     if ret.is_null() {
         return None;

@@ -6,7 +6,7 @@ use wasm_bindgen::JsCast;
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(js_namespace = Interceptor, js_name = attach)]
-    pub fn attach(target: NativePointer, callbacks: js_sys::Object);
+    pub fn attach(target: &NativePointer, callbacks: js_sys::Object);
 
     ///Arguments to an invocation of the intercepted function.
     ///
