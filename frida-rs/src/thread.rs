@@ -1,5 +1,4 @@
 use crate::cpu::CpuContext;
-use crate::plumbing;
 use std::fmt;
 use std::str;
 use std::str::FromStr;
@@ -46,8 +45,8 @@ pub struct ThreadDetails {
     pub context: CpuContext,
 }
 
-impl From<plumbing::thread::ThreadDetails> for ThreadDetails {
-    fn from(m: plumbing::thread::ThreadDetails) -> Self {
+impl From<frida_rs_sys::thread::ThreadDetails> for ThreadDetails {
+    fn from(m: frida_rs_sys::thread::ThreadDetails) -> Self {
         ThreadDetails {
             id: m.id(),
             state: ThreadState::from_str(&m.state()).unwrap(),

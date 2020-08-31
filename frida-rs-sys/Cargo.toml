@@ -1,8 +1,5 @@
 [package]
-name = "frida-rs"
-description = "Write Frida scripts in Rust"
-license = "MIT OR Apache-2.0"
-repository = "https://github.com/Ayrx/frida-rs"
+name = "frida-rs-sys"
 version = "0.1.0"
 authors = ["Terry Chia <terrycwk1994@gmail.com>"]
 edition = "2018"
@@ -31,7 +28,6 @@ serde_derive = "1.0.106"
 js-sys = "0.3.37"
 serde_with = "1.4.0"
 serde_json = "1.0.53"
-"frida-rs-sys" = { path = "../frida-rs-sys" }
 
 [dependencies.wasm-bindgen]
 version = "^0.2"

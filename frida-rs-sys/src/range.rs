@@ -1,4 +1,4 @@
-use crate::plumbing::nativepointer::NativePointer;
+use crate::nativepointer::NativePointer;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]

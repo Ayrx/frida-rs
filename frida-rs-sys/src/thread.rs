@@ -1,4 +1,4 @@
-use crate::plumbing::cpu::CpuContext;
+use crate::cpu::CpuContext;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]

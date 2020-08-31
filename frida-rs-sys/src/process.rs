@@ -1,4 +1,3 @@
-use crate::plumbing;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
@@ -34,10 +33,10 @@ extern "C" {
     pub fn enumerate_modules() -> js_sys::Array;
 
     #[wasm_bindgen(js_namespace = Process, js_name = findModuleByName)]
-    pub fn get_module_by_name(name: &str) -> plumbing::module::Module;
+    pub fn get_module_by_name(name: &str) -> crate::module::Module;
 
     #[wasm_bindgen(js_namespace = Process, js_name = findModuleByAddress)]
-    pub fn get_module_by_address(address: &JsValue) -> plumbing::module::Module;
+    pub fn get_module_by_address(address: &JsValue) -> crate::module::Module;
 
     #[wasm_bindgen(js_namespace = Process, js_name = findRangeByAddress)]
     pub fn get_range_by_address(address: &JsValue) -> JsValue;

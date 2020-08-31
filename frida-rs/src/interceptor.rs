@@ -5,13 +5,13 @@
 //![https://frida.re/docs/javascript-api/#interceptor](https://frida.re/docs/javascript-api/#interceptor)
 
 use crate::nativepointer::NativePointer;
-use crate::plumbing;
-use crate::plumbing::utils::this_wrap;
+use frida_rs_sys::utils::this_wrap;
+use frida_rs_sys::interceptor;
 use js_sys::Object;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 
-pub use plumbing::interceptor::{InvocationArgs, InvocationReturnValue};
+pub use frida_rs_sys::interceptor::{InvocationArgs, InvocationReturnValue};
 
 ///Per-invocation object that contains useful properties about the program at
 ///the point of interception.
@@ -36,7 +36,7 @@ pub struct InvocationContext {
     pub thread_id: u32,
     ///Call depth relative to other invocations.
     pub depth: u32,
-    _js: plumbing::interceptor::InvocationContext,
+    _js: interceptor::InvocationContext,
 }
 
 impl InvocationContext {
@@ -58,8 +58,8 @@ impl InvocationContext {
     }
 }
 
-impl From<plumbing::interceptor::InvocationContext> for InvocationContext {
-    fn from(m: plumbing::interceptor::InvocationContext) -> Self {
+impl From<interceptor::InvocationContext> for InvocationContext {
+    fn from(m: interceptor::InvocationContext) -> Self {
         InvocationContext {
             return_address: m.return_address(),
             context: crate::cpu::CpuContext::from(m.context()),
@@ -73,7 +73,7 @@ impl From<plumbing::interceptor::InvocationContext> for InvocationContext {
 // TODO: This feels like a bad hack... see if there is a better way...
 impl wasm_bindgen::describe::WasmDescribe for InvocationContext {
     fn describe() {
-        plumbing::interceptor::InvocationContext::describe()
+        interceptor::InvocationContext::describe()
     }
 }
 
@@ -82,7 +82,7 @@ impl wasm_bindgen::convert::FromWasmAbi for InvocationContext {
     type Abi = u32;
 
     unsafe fn from_abi(js: u32) -> InvocationContext {
-        let i = plumbing::interceptor::InvocationContext::from_abi(js);
+        let i = interceptor::InvocationContext::from_abi(js);
         InvocationContext::from(i)
     }
 }
@@ -135,5 +135,5 @@ pub fn attach(target: NativePointer, callbacks: InvocationCallbacks) {
         on_leave.forget();
     }
 
-    plumbing::interceptor::attach(target, callbacks_object);
+    interceptor::attach(target, callbacks_object);
 }

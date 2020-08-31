@@ -7,7 +7,6 @@
 //!This crate is still a work-in-progress. The API is not stable and is
 //!subject to breaking changes until the crate reaches 1.0. Use with care.
 mod nativepointer;
-mod plumbing;
 
 pub mod console;
 pub mod cpu;
@@ -18,8 +17,8 @@ pub mod range;
 pub mod thread;
 
 pub use nativepointer::NativePointer;
-pub use plumbing::frida::ArrayBuffer;
-pub use plumbing::frida::RecvMessage;
+pub use frida_rs_sys::frida::ArrayBuffer;
+pub use frida_rs_sys::frida::RecvMessage;
 
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -34,35 +33,35 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 ///
 ///This is equivalent to calling `Frida.version` in the JavaScript API.
 pub fn version() -> &'static str {
-    &*crate::plumbing::frida::version
+    &*frida_rs_sys::frida::version
 }
 
 ///Get the current size of Frida's private heap.
 ///
 ///This is equivalent to calling `Frida.heapSize` in the JavaScript API.
 pub fn heap_size() -> usize {
-    *crate::plumbing::frida::heap_size
+    *frida_rs_sys::frida::heap_size
 }
 
 ///Get the runtime in use.
 ///
 ///This is equivalent to calling `Script.runtime` in the JavaScript API.
 pub fn runtime() -> &'static str {
-    &*crate::plumbing::script::runtime
+    &*frida_rs_sys::script::runtime
 }
 
 ///Generate a hexdump for the provided `target`.
 ///
 ///This is equivalent to calling `hexdump` in the JavaScript API.
 pub fn hexdump(target: &nativepointer::NativePointer) -> String {
-    crate::plumbing::frida::hexdump(target)
+    frida_rs_sys::frida::hexdump(target)
 }
 
 ///Generate a hexdump for the provided `target`.
 ///
 ///This is equivalent to calling `hexdump` in the JavaScript API.
 pub fn hexdump_arraybuffer(target: &ArrayBuffer) -> String {
-    crate::plumbing::frida::hexdump_arraybuffer(target)
+    frida_rs_sys::frida::hexdump_arraybuffer(target)
 }
 
 ///Send a message to your Frida application.
@@ -72,7 +71,7 @@ pub fn send<T>(message: &T)
 where
     T: serde::Serialize + ?Sized,
 {
-    crate::plumbing::frida::send(&JsValue::from_serde(&message).unwrap(), &JsValue::NULL);
+    frida_rs_sys::frida::send(&JsValue::from_serde(&message).unwrap(), &JsValue::NULL);
 }
 
 ///Send a message to your Frida application.
@@ -84,7 +83,7 @@ where
     T: serde::Serialize + ?Sized,
 {
     let data = js_sys::Uint8Array::from(data);
-    crate::plumbing::frida::send(
+    frida_rs_sys::frida::send(
         &JsValue::from_serde(&message).unwrap(),
         &data.unchecked_into(),
     );
@@ -96,7 +95,7 @@ where
 pub fn recv(callback: Box<dyn FnMut(RecvMessage, Option<ArrayBuffer>)>) {
     let c = Closure::wrap(callback);
     let f: &js_sys::Function = c.as_ref().unchecked_ref();
-    crate::plumbing::frida::recv(f);
+    frida_rs_sys::frida::recv(f);
     c.forget();
 }
 
@@ -110,6 +109,6 @@ pub fn recv_with_type(
 ) {
     let c = Closure::wrap(callback);
     let f: &js_sys::Function = c.as_ref().unchecked_ref();
-    crate::plumbing::frida::recv_with_type(type_filter, f);
+    frida_rs_sys::frida::recv_with_type(type_filter, f);
     c.forget();
 }

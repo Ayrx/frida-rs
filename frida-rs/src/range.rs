@@ -1,5 +1,4 @@
 use crate::nativepointer::NativePointer;
-use crate::plumbing;
 
 pub struct RangeDetails {
     pub base: NativePointer,
@@ -8,8 +7,8 @@ pub struct RangeDetails {
     pub file: Option<FileMapping>,
 }
 
-impl From<plumbing::range::RangeDetails> for RangeDetails {
-    fn from(m: plumbing::range::RangeDetails) -> Self {
+impl From<frida_rs_sys::range::RangeDetails> for RangeDetails {
+    fn from(m: frida_rs_sys::range::RangeDetails) -> Self {
         RangeDetails {
             base: m.base(),
             size: m.size(),
@@ -25,8 +24,8 @@ pub struct FileMapping {
     pub size: usize,
 }
 
-impl From<plumbing::range::FileMapping> for FileMapping {
-    fn from(m: plumbing::range::FileMapping) -> Self {
+impl From<frida_rs_sys::range::FileMapping> for FileMapping {
+    fn from(m: frida_rs_sys::range::FileMapping) -> Self {
         FileMapping {
             path: m.path(),
             offset: m.offset(),

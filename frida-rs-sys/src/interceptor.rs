@@ -1,4 +1,4 @@
-use crate::plumbing::nativepointer::NativePointer;
+use crate::nativepointer::NativePointer;
 use std::fmt;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -27,7 +27,7 @@ extern "C" {
     pub fn return_address(this: &InvocationContext) -> NativePointer;
 
     #[wasm_bindgen(method, getter, js_name = context)]
-    pub fn context(this: &InvocationContext) -> crate::plumbing::cpu::CpuContext;
+    pub fn context(this: &InvocationContext) -> crate::cpu::CpuContext;
 
     #[wasm_bindgen(method, getter, js_name = threadId)]
     pub fn thread_id(this: &InvocationContext) -> u32;

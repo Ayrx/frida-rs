@@ -5,16 +5,16 @@
 //![https://frida.re/docs/javascript-api/#module](https://frida.re/docs/javascript-api/#module).
 
 use crate::nativepointer::NativePointer;
-use crate::plumbing;
 use crate::range::RangeDetails;
 use wasm_bindgen::{JsCast, JsValue};
+use frida_rs_sys::module;
 
 ///Get the base address of the module named `name`.
 ///
 ///This is the equivalent to calling `Module.findBaseAddress()` /
 ///`Module.getBaseAddress()` in the JavaScript API.
 pub fn get_base_address(name: &str) -> Option<NativePointer> {
-    let ret = plumbing::module::get_base_address(name);
+    let ret = module::get_base_address(name);
 
     if ret.is_null() {
         return None;
@@ -28,7 +28,7 @@ pub fn get_base_address(name: &str) -> Option<NativePointer> {
 ///This is the equivalent to calling `Module.findExportByName()` /
 ///`Module.getExportByName()` in the JavaScript API.
 pub fn get_export(export_name: &str) -> Option<NativePointer> {
-    let ret = plumbing::module::get_export(JsValue::NULL, export_name);
+    let ret = module::get_export(JsValue::NULL, export_name);
 
     if ret.is_null() {
         return None;
@@ -63,11 +63,11 @@ pub struct Module {
     ///Full filesystem path of module.
     pub path: String,
 
-    _ref: plumbing::module::Module,
+    _ref: module::Module,
 }
 
-impl From<plumbing::module::Module> for Module {
-    fn from(m: plumbing::module::Module) -> Self {
+impl From<module::Module> for Module {
+    fn from(m: module::Module) -> Self {
         Module {
             name: m.name(),
             base: m.base(),
@@ -86,11 +86,11 @@ impl Module {
     pub fn enumerate_exports(&self) -> Vec<ExportDetails> {
         let mut export_details = Vec::new();
 
-        let m: plumbing::module::Module = self._ref.clone().unchecked_into();
+        let m: module::Module = self._ref.clone().unchecked_into();
         let exports = m.enumerate_exports();
 
         for export in exports.iter() {
-            let i = ExportDetails::from(plumbing::module::ExportDetails::from(export));
+            let i = ExportDetails::from(module::ExportDetails::from(export));
             export_details.push(i);
         }
 
@@ -104,11 +104,11 @@ impl Module {
     pub fn enumerate_imports(&self) -> Vec<ImportDetails> {
         let mut import_details = Vec::new();
 
-        let m: plumbing::module::Module = self._ref.clone().unchecked_into();
+        let m: module::Module = self._ref.clone().unchecked_into();
         let imports = m.enumerate_imports();
 
         for import in imports.iter() {
-            let i = ImportDetails::from(plumbing::module::ImportDetails::from(import));
+            let i = ImportDetails::from(module::ImportDetails::from(import));
             import_details.push(i);
         }
 
@@ -122,11 +122,11 @@ impl Module {
     pub fn enumerate_symbols(&self) -> Vec<SymbolDetails> {
         let mut symbol_details = Vec::new();
 
-        let m: plumbing::module::Module = self._ref.clone().unchecked_into();
+        let m: module::Module = self._ref.clone().unchecked_into();
         let symbols = m.enumerate_symbols();
 
         for symbol in symbols.iter() {
-            let i = SymbolDetails::from(plumbing::module::SymbolDetails::from(symbol));
+            let i = SymbolDetails::from(module::SymbolDetails::from(symbol));
             symbol_details.push(i);
         }
 
@@ -143,11 +143,11 @@ impl Module {
     pub fn enumerate_ranges(&self, protection: &str) -> Vec<RangeDetails> {
         let mut range_details = Vec::new();
 
-        let m: plumbing::module::Module = self._ref.clone().unchecked_into();
+        let m: module::Module = self._ref.clone().unchecked_into();
         let ranges = m.enumerate_ranges(protection);
 
         for range in ranges.iter() {
-            let i = RangeDetails::from(plumbing::range::RangeDetails::from(range));
+            let i = RangeDetails::from(frida_rs_sys::range::RangeDetails::from(range));
             range_details.push(i);
         }
 
@@ -168,8 +168,8 @@ pub struct ExportDetails {
     pub address: NativePointer,
 }
 
-impl From<plumbing::module::ExportDetails> for ExportDetails {
-    fn from(m: plumbing::module::ExportDetails) -> Self {
+impl From<module::ExportDetails> for ExportDetails {
+    fn from(m: module::ExportDetails) -> Self {
         ExportDetails {
             export_type: m.export_type(),
             name: m.name(),
@@ -186,8 +186,8 @@ pub struct ImportDetails {
     pub slot: Option<NativePointer>,
 }
 
-impl From<plumbing::module::ImportDetails> for ImportDetails {
-    fn from(m: plumbing::module::ImportDetails) -> Self {
+impl From<module::ImportDetails> for ImportDetails {
+    fn from(m: module::ImportDetails) -> Self {
         ImportDetails {
             import_type: m.import_type(),
             name: m.name(),
@@ -207,8 +207,8 @@ pub struct SymbolDetails {
     pub size: Option<usize>,
 }
 
-impl From<plumbing::module::SymbolDetails> for SymbolDetails {
-    fn from(m: plumbing::module::SymbolDetails) -> Self {
+impl From<module::SymbolDetails> for SymbolDetails {
+    fn from(m: module::SymbolDetails) -> Self {
         SymbolDetails {
             is_global: m.is_global(),
             symbol_type: m.symbol_type(),
@@ -225,8 +225,8 @@ pub struct SymbolSectionDetails {
     pub protection: String,
 }
 
-impl From<plumbing::module::SymbolSectionDetails> for SymbolSectionDetails {
-    fn from(m: plumbing::module::SymbolSectionDetails) -> Self {
+impl From<module::SymbolSectionDetails> for SymbolSectionDetails {
+    fn from(m: module::SymbolSectionDetails) -> Self {
         SymbolSectionDetails {
             id: m.id(),
             protection: m.protection(),

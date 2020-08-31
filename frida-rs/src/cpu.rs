@@ -5,9 +5,9 @@
 //!Frida APIs will return a [`CpuContext`](CpuContext) has to be unwrapped to
 //!the appropriate struct.
 use crate::nativepointer::NativePointer;
-use crate::plumbing;
 use js_sys::Reflect;
 use wasm_bindgen::prelude::JsValue;
+use frida_rs_sys::cpu;
 
 #[derive(Debug)]
 pub enum CpuContext {
@@ -19,8 +19,8 @@ pub enum CpuContext {
     PortableCpuContext(PortableCpuContext),
 }
 
-impl From<plumbing::cpu::CpuContext> for CpuContext {
-    fn from(m: plumbing::cpu::CpuContext) -> Self {
+impl From<cpu::CpuContext> for CpuContext {
+    fn from(m: cpu::CpuContext) -> Self {
         match crate::process::get_arch() {
             "ia32" => Self::Ia32CpuContext(Ia32CpuContext::from(m)),
             "x64" => Self::X64CpuContext(X64CpuContext::from(m)),
@@ -38,8 +38,8 @@ pub struct PortableCpuContext {
     pub sp: NativePointer,
 }
 
-impl From<plumbing::cpu::CpuContext> for PortableCpuContext {
-    fn from(m: plumbing::cpu::CpuContext) -> Self {
+impl From<cpu::CpuContext> for PortableCpuContext {
+    fn from(m: cpu::CpuContext) -> Self {
         PortableCpuContext {
             pc: NativePointer::from(Reflect::get(&m, &JsValue::from_str("pc")).unwrap()),
             sp: NativePointer::from(Reflect::get(&m, &JsValue::from_str("sp")).unwrap()),
@@ -62,8 +62,8 @@ pub struct Ia32CpuContext {
     pub eip: NativePointer,
 }
 
-impl From<plumbing::cpu::CpuContext> for Ia32CpuContext {
-    fn from(m: plumbing::cpu::CpuContext) -> Self {
+impl From<cpu::CpuContext> for Ia32CpuContext {
+    fn from(m: cpu::CpuContext) -> Self {
         Ia32CpuContext {
             pc: NativePointer::from(Reflect::get(&m, &JsValue::from_str("pc")).unwrap()),
             sp: NativePointer::from(Reflect::get(&m, &JsValue::from_str("sp")).unwrap()),
@@ -102,8 +102,8 @@ pub struct X64CpuContext {
     pub rip: NativePointer,
 }
 
-impl From<plumbing::cpu::CpuContext> for X64CpuContext {
-    fn from(m: plumbing::cpu::CpuContext) -> Self {
+impl From<cpu::CpuContext> for X64CpuContext {
+    fn from(m: cpu::CpuContext) -> Self {
         X64CpuContext {
             pc: NativePointer::from(Reflect::get(&m, &JsValue::from_str("pc")).unwrap()),
             sp: NativePointer::from(Reflect::get(&m, &JsValue::from_str("sp")).unwrap()),
@@ -147,8 +147,8 @@ pub struct ArmCpuContext {
     pub lr: NativePointer,
 }
 
-impl From<plumbing::cpu::CpuContext> for ArmCpuContext {
-    fn from(m: plumbing::cpu::CpuContext) -> Self {
+impl From<cpu::CpuContext> for ArmCpuContext {
+    fn from(m: cpu::CpuContext) -> Self {
         ArmCpuContext {
             pc: NativePointer::from(Reflect::get(&m, &JsValue::from_str("pc")).unwrap()),
             sp: NativePointer::from(Reflect::get(&m, &JsValue::from_str("sp")).unwrap()),
@@ -207,8 +207,8 @@ pub struct Arm64CpuContext {
     pub lr: NativePointer,
 }
 
-impl From<plumbing::cpu::CpuContext> for Arm64CpuContext {
-    fn from(m: plumbing::cpu::CpuContext) -> Self {
+impl From<cpu::CpuContext> for Arm64CpuContext {
+    fn from(m: cpu::CpuContext) -> Self {
         Arm64CpuContext {
             pc: NativePointer::from(Reflect::get(&m, &JsValue::from_str("pc")).unwrap()),
             sp: NativePointer::from(Reflect::get(&m, &JsValue::from_str("sp")).unwrap()),
@@ -285,8 +285,8 @@ pub struct MipsCpuContext {
     pub k1: NativePointer,
 }
 
-impl From<plumbing::cpu::CpuContext> for MipsCpuContext {
-    fn from(m: plumbing::cpu::CpuContext) -> Self {
+impl From<cpu::CpuContext> for MipsCpuContext {
+    fn from(m: cpu::CpuContext) -> Self {
         MipsCpuContext {
             pc: NativePointer::from(Reflect::get(&m, &JsValue::from_str("pc")).unwrap()),
             sp: NativePointer::from(Reflect::get(&m, &JsValue::from_str("sp")).unwrap()),
