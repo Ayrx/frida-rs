@@ -98,10 +98,10 @@ pub struct InvocationCallbacks {
 ///
 ///```
 ///let callbacks = InvocationCallbacks {
-///    on_enter: Some(Box::new(move |this: InvocationContext, args: InvocationArg| {
+///    on_enter: Some(Box::new(move |this: InvocationContext, args: InvocationArgs| {
 ///        ...
 ///    })),
-///    on_leave: Some(Box::new(move |this: InvocationContext, retval: InvocationReturnValue {
+///    on_leave: Some(Box::new(move |this: InvocationContext, retval: InvocationReturnValue| {
 ///        ...
 ///    }))
 ///};
