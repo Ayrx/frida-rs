@@ -5,6 +5,7 @@
 //![https://frida.re/docs/javascript-api/#interceptor](https://frida.re/docs/javascript-api/#interceptor)
 
 use crate::nativepointer::NativePointer;
+use crate::fromsys::FromSys;
 use frida_rs_sys::utils::this_wrap;
 use frida_rs_sys::interceptor;
 use js_sys::Object;
@@ -62,7 +63,7 @@ impl From<interceptor::InvocationContext> for InvocationContext {
     fn from(m: interceptor::InvocationContext) -> Self {
         InvocationContext {
             return_address: NativePointer::from_sys(m.return_address()),
-            context: crate::cpu::CpuContext::from(m.context()),
+            context: crate::cpu::CpuContext::from_sys(m.context()),
             thread_id: m.thread_id(),
             depth: m.depth(),
             _js: m,

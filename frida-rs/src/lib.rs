@@ -7,6 +7,7 @@
 //!This crate is still a work-in-progress. The API is not stable and is
 //!subject to breaking changes until the crate reaches 1.0. Use with care.
 mod nativepointer;
+mod fromsys;
 
 pub mod console;
 pub mod cpu;

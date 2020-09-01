@@ -1,4 +1,5 @@
 use crate::cpu::CpuContext;
+use crate::nativepointer::NativePointer;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
@@ -14,4 +15,10 @@ extern "C" {
 
     #[wasm_bindgen(method, getter)]
     pub fn context(this: &ThreadDetails) -> CpuContext;
+
+    #[wasm_bindgen(js_namespace = Thread, js_name = sleep)]
+    pub fn sleep(delay: JsValue);
+
+    #[wasm_bindgen(js_namespace = Thread, js_name = backtrace)]
+    pub fn backtrace(ctx: Option<CpuContext>) -> js_sys::Array;
 }
