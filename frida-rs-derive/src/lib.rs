@@ -46,8 +46,8 @@ pub fn derive_cpu(input: TokenStream) -> TokenStream {
                 }
             }
         }
-        syn::Data::Enum(s) => unimplemented!(),
-        syn::Data::Union(s) => unimplemented!(),
+        syn::Data::Enum(_) => unimplemented!(),
+        syn::Data::Union(_) => unimplemented!(),
     };
 
     TokenStream::from(expanded)

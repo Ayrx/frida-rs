@@ -1,5 +1,4 @@
 use crate::cpu::CpuContext;
-use crate::nativepointer::NativePointer;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
