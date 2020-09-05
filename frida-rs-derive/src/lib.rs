@@ -23,7 +23,7 @@ pub fn derive_cpu(input: TokenStream) -> TokenStream {
                         }
 
                         fields_call.extend(quote!{
-                            #name: NativePointer::from_jsvalue(Reflect::get(&m, &JsValue::from_str(stringify!(#name))).unwrap()),
+                            #name: crate::NativePointer::from_jsvalue(js_sys::Reflect::get(&m, &wasm_bindgen::prelude::JsValue::from_str(stringify!(#name))).unwrap()),
                         })
                     }
                     fields_call
@@ -32,15 +32,15 @@ pub fn derive_cpu(input: TokenStream) -> TokenStream {
             };
 
             quote! {
-                impl FromSys<cpu::CpuContext> for #name {
-                    fn from_sys(m: cpu::CpuContext) -> Self {
+                impl crate::fromsys::FromSys<frida_rs_sys::cpu::CpuContext> for #name {
+                    fn from_sys(m: frida_rs_sys::cpu::CpuContext) -> Self {
                         Self {
                             #fields
                             sys: m
                         }
                     }
 
-                    fn into_sys(self) -> cpu::CpuContext {
+                    fn into_sys(self) -> frida_rs_sys::cpu::CpuContext {
                         self.sys
                     }
                 }

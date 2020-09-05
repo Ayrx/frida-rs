@@ -8,8 +8,6 @@ use crate::fromsys::FromSys;
 use crate::nativepointer::NativePointer;
 use frida_rs_derive::*;
 use frida_rs_sys::cpu;
-use js_sys::Reflect;
-use wasm_bindgen::prelude::JsValue;
 
 #[derive(Debug)]
 pub enum CpuContext {
