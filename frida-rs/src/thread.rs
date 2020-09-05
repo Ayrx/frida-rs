@@ -5,8 +5,8 @@
 //![https://frida.re/docs/javascript-api/#thread](https://frida.re/docs/javascript-api/#thread)
 
 use crate::cpu::CpuContext;
-use crate::NativePointer;
 use crate::fromsys::FromSys;
+use crate::NativePointer;
 use std::fmt;
 use std::str;
 use std::str::FromStr;

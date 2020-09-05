@@ -6,8 +6,8 @@
 
 use crate::nativepointer::NativePointer;
 use crate::range::RangeDetails;
-use wasm_bindgen::{JsCast, JsValue};
 use frida_rs_sys::module;
+use wasm_bindgen::{JsCast, JsValue};
 
 ///Get the base address of the module named `name`.
 ///

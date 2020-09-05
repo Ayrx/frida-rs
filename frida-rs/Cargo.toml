@@ -32,6 +32,7 @@ js-sys = "0.3.37"
 serde_with = "1.4.0"
 serde_json = "1.0.53"
 "frida-rs-sys" = { path = "../frida-rs-sys" }
+"frida-rs-derive" = { path = "../frida-rs-derive" }
 
 [dependencies.wasm-bindgen]
 version = "^0.2"

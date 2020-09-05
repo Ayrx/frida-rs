@@ -36,7 +36,9 @@ extern "C" {
     pub fn get_module_by_name(name: &str) -> crate::module::Module;
 
     #[wasm_bindgen(js_namespace = Process, js_name = findModuleByAddress)]
-    pub fn get_module_by_address(address: &crate::nativepointer::NativePointer) -> crate::module::Module;
+    pub fn get_module_by_address(
+        address: &crate::nativepointer::NativePointer,
+    ) -> crate::module::Module;
 
     #[wasm_bindgen(js_namespace = Process, js_name = findRangeByAddress)]
     pub fn get_range_by_address(address: &crate::nativepointer::NativePointer) -> JsValue;

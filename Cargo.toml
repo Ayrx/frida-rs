@@ -3,4 +3,5 @@
 members = [
     "frida-rs",
     "frida-rs-sys",
+    "frida-rs-derive",
 ]

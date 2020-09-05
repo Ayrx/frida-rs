@@ -6,8 +6,8 @@
 //!
 //!This crate is still a work-in-progress. The API is not stable and is
 //!subject to breaking changes until the crate reaches 1.0. Use with care.
-mod nativepointer;
 mod fromsys;
+mod nativepointer;
 
 pub mod console;
 pub mod cpu;
@@ -17,9 +17,9 @@ pub mod process;
 pub mod range;
 pub mod thread;
 
-pub use nativepointer::NativePointer;
 pub use frida_rs_sys::frida::ArrayBuffer;
 pub use frida_rs_sys::frida::RecvMessage;
+pub use nativepointer::NativePointer;
 
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;

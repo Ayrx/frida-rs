@@ -4,10 +4,10 @@
 //!grouped under
 //![https://frida.re/docs/javascript-api/#interceptor](https://frida.re/docs/javascript-api/#interceptor)
 
-use crate::nativepointer::NativePointer;
 use crate::fromsys::FromSys;
-use frida_rs_sys::utils::this_wrap;
+use crate::nativepointer::NativePointer;
 use frida_rs_sys::interceptor;
+use frida_rs_sys::utils::this_wrap;
 use js_sys::Object;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;

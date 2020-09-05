@@ -140,7 +140,9 @@ pub fn get_range_by_address(address: &nativepointer::NativePointer) -> Option<Ra
         return None;
     }
 
-    Some(RangeDetails::from(frida_rs_sys::range::RangeDetails::from(ret)))
+    Some(RangeDetails::from(frida_rs_sys::range::RangeDetails::from(
+        ret,
+    )))
 }
 
 ///Get all memory ranges satisfying `protection`.
