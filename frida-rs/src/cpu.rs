@@ -32,7 +32,7 @@ impl FromSys<cpu::CpuContext> for CpuContext {
         }
     }
 
-    fn to_sys(self) -> cpu::CpuContext {
+    fn into_sys(self) -> cpu::CpuContext {
         match self {
             Self::Ia32CpuContext(c) => c.into_sys(),
             Self::X64CpuContext(c) => c.into_sys(),

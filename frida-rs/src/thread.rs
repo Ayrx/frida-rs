@@ -74,7 +74,7 @@ pub fn sleep(delay: f64) {
 pub fn backtrace(ctx: Option<CpuContext>) -> Vec<NativePointer> {
     let mut ret = Vec::new();
 
-    let c = ctx.map(|s| s.to_sys());
+    let c = ctx.map(|s| s.into_sys());
     let bt = frida_rs_sys::thread::backtrace(c);
 
     for i in bt.iter() {
