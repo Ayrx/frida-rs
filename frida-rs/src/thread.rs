@@ -71,11 +71,21 @@ pub fn sleep(delay: f64) {
     frida_rs_sys::thread::sleep(JsValue::from_f64(delay));
 }
 
-pub fn backtrace(ctx: Option<CpuContext>) -> Vec<NativePointer> {
+pub enum Backtracer {
+    ACCURATE,
+    FUZZY,
+}
+
+pub fn backtrace(ctx: Option<CpuContext>, backtracer: Backtracer) -> Vec<NativePointer> {
     let mut ret = Vec::new();
 
+    let i = match backtracer {
+        Backtracer::ACCURATE => &frida_rs_sys::thread::BacktracerAccurate,
+        Backtracer::FUZZY => &frida_rs_sys::thread::BacktracerFuzzy,
+    };
+
     let c = ctx.map(|s| s.into_sys());
-    let bt = frida_rs_sys::thread::backtrace(c);
+    let bt = frida_rs_sys::thread::backtrace(c, &*i);
 
     for i in bt.iter() {
         ret.push(NativePointer::from_jsvalue(i));

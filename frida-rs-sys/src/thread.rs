@@ -19,5 +19,11 @@ extern "C" {
     pub fn sleep(delay: JsValue);
 
     #[wasm_bindgen(js_namespace = Thread, js_name = backtrace)]
-    pub fn backtrace(ctx: Option<CpuContext>) -> js_sys::Array;
+    pub fn backtrace(ctx: Option<CpuContext>, backtracer: &JsValue) -> js_sys::Array;
+
+    #[wasm_bindgen(js_namespace = Backtracer, js_name = ACCURATE)]
+    pub static BacktracerAccurate: JsValue;
+
+    #[wasm_bindgen(js_namespace = Backtracer, js_name = FUZZY)]
+    pub static BacktracerFuzzy: JsValue;
 }
