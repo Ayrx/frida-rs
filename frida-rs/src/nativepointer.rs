@@ -17,10 +17,6 @@ impl NativePointer {
         self.0.read_u8()
     }
 
-    pub fn to_string(&self) -> String {
-        self.0.to_string()
-    }
-
     pub(crate) fn to_sys(&self) -> &frida_rs_sys::nativepointer::NativePointer {
         &self.0
     }
@@ -42,6 +38,6 @@ impl FromSys<frida_rs_sys::nativepointer::NativePointer> for NativePointer {
 
 impl fmt::Display for NativePointer {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", self.to_string())
+        write!(f, "{}", self.0.to_string())
     }
 }
