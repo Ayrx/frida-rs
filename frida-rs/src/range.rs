@@ -14,7 +14,7 @@ impl From<frida_rs_sys::range::RangeDetails> for RangeDetails {
             base: NativePointer::from_sys(m.base()),
             size: m.size(),
             protection: m.protection(),
-            file: m.file().map(|s| FileMapping::from(s)),
+            file: m.file().map(FileMapping::from),
         }
     }
 }

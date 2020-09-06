@@ -192,8 +192,8 @@ impl From<module::ImportDetails> for ImportDetails {
             import_type: m.import_type(),
             name: m.name(),
             module: m.module(),
-            address: m.address().map(|s| NativePointer::from_sys(s)),
-            slot: m.slot().map(|s| NativePointer::from_sys(s)),
+            address: m.address().map(NativePointer::from_sys),
+            slot: m.slot().map(NativePointer::from_sys),
         }
     }
 }
@@ -212,7 +212,7 @@ impl From<module::SymbolDetails> for SymbolDetails {
         SymbolDetails {
             is_global: m.is_global(),
             symbol_type: m.symbol_type(),
-            section: m.section().map(|s| SymbolSectionDetails::from(s)),
+            section: m.section().map(SymbolSectionDetails::from),
             name: m.name(),
             address: NativePointer::from_sys(m.address()),
             size: m.size(),
