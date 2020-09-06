@@ -1,3 +1,4 @@
+use crate::fromsys::FromSys;
 use crate::nativepointer::NativePointer;
 
 pub struct RangeDetails {

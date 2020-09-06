@@ -3,7 +3,7 @@
 //!The functions in this module correspond to the JavaScript functions
 //!grouped under
 //![https://frida.re/docs/javascript-api/#module](https://frida.re/docs/javascript-api/#module).
-
+use crate::fromsys::FromSys;
 use crate::nativepointer::NativePointer;
 use crate::range::RangeDetails;
 use frida_rs_sys::module;

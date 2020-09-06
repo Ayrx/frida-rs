@@ -1,3 +1,4 @@
+use crate::fromsys::FromSys;
 use std::fmt;
 
 #[derive(Debug)]
@@ -20,16 +21,22 @@ impl NativePointer {
         self.0.to_string()
     }
 
-    pub(crate) fn from_sys(s: frida_rs_sys::nativepointer::NativePointer) -> Self {
-        Self(s)
-    }
-
     pub(crate) fn to_sys(&self) -> &frida_rs_sys::nativepointer::NativePointer {
         &self.0
     }
 
     pub(crate) fn from_jsvalue(s: wasm_bindgen::JsValue) -> Self {
         Self(frida_rs_sys::nativepointer::NativePointer::from(s))
+    }
+}
+
+impl FromSys<frida_rs_sys::nativepointer::NativePointer> for NativePointer {
+    fn from_sys(m: frida_rs_sys::nativepointer::NativePointer) -> Self {
+        Self(m)
+    }
+
+    fn into_sys(self) -> frida_rs_sys::nativepointer::NativePointer {
+        self.0
     }
 }
 

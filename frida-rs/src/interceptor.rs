@@ -136,5 +136,5 @@ pub fn attach(target: NativePointer, callbacks: InvocationCallbacks) {
         on_leave.forget();
     }
 
-    interceptor::attach(target.to_sys(), callbacks_object);
+    interceptor::attach(&target.into_sys(), callbacks_object);
 }
