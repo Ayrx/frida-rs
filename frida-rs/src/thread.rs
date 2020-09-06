@@ -12,6 +12,8 @@ use std::str;
 use std::str::FromStr;
 use wasm_bindgen::prelude::*;
 
+///Status of a thread. Accessed through the
+///[`ThreadDetails`](crate::thread::ThreadDetails) struct.
 pub enum ThreadState {
     Running,
     Stopped,
@@ -48,6 +50,8 @@ impl fmt::Display for ThreadState {
     }
 }
 
+///Detailed information about a thread. Obtained by calling
+///[`Process.enumerateThreads`](crate::process::enumerate_threads).
 pub struct ThreadDetails {
     pub id: u32,
     pub state: ThreadState,
@@ -71,11 +75,16 @@ pub fn sleep(delay: f64) {
     frida_rs_sys::thread::sleep(JsValue::from_f64(delay));
 }
 
+///Supply to [`backtrace`](crate::thread::backtrace) to configure the accuracy
+///of the generated backtrace.
 pub enum Backtracer {
     ACCURATE,
     FUZZY,
 }
 
+///Generate a backtrace for the current thread.
+///
+///This is equivalent to calling `Thread.backtrace` in the JavaScript API.
 pub fn backtrace(ctx: Option<CpuContext>, backtracer: Backtracer) -> Vec<NativePointer> {
     let mut ret = Vec::new();
 
