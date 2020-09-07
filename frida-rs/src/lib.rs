@@ -11,6 +11,7 @@ mod nativepointer;
 
 pub mod console;
 pub mod cpu;
+pub mod debugsymbol;
 pub mod interceptor;
 pub mod module;
 pub mod modulemap;

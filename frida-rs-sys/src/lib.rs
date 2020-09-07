@@ -1,5 +1,6 @@
 pub mod console;
 pub mod cpu;
+pub mod debugsymbol;
 pub mod frida;
 pub mod interceptor;
 pub mod module;
