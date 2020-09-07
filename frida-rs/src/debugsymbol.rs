@@ -84,8 +84,10 @@ pub fn load_symbols(path: &str) {
 ///This is equivalent to calling `DebugSymbol.findFunctionsNamed` in the
 ///JavaScript API.
 pub fn find_functions(name: &str) -> Vec<NativePointer> {
-    let functions = frida_rs_sys::debugsymbol::DebugSymbol::find_functions(name.to_owned());
-    functions.iter().map(NativePointer::from_jsvalue).collect()
+    frida_rs_sys::debugsymbol::DebugSymbol::find_functions(name.to_owned())
+        .iter()
+        .map(NativePointer::from_jsvalue)
+        .collect()
 }
 
 ///Resolve function names matching `glob` and return their addresses.
@@ -93,7 +95,8 @@ pub fn find_functions(name: &str) -> Vec<NativePointer> {
 ///This is equivalent to calling `DebugSymbol.findFunctionsMatching` in the
 ///JavaScript API.
 pub fn find_matching_functions(glob: &str) -> Vec<NativePointer> {
-    let functions =
-        frida_rs_sys::debugsymbol::DebugSymbol::find_matching_functions(glob.to_owned());
-    functions.iter().map(NativePointer::from_jsvalue).collect()
+    frida_rs_sys::debugsymbol::DebugSymbol::find_matching_functions(glob.to_owned())
+        .iter()
+        .map(NativePointer::from_jsvalue)
+        .collect()
 }

@@ -75,15 +75,11 @@ pub fn get_tid() -> u32 {
 ///This is the equivalent to calling `Process.enumerateThreads()` in the
 ///JavaScript API.
 pub fn enumerate_threads() -> Vec<thread::ThreadDetails> {
-    let threads = process::enumerate_threads();
-    let mut thread_details = Vec::new();
-
-    for thread in threads.iter() {
-        let td = thread::ThreadDetails::from(frida_rs_sys::thread::ThreadDetails::from(thread));
-        thread_details.push(td);
-    }
-
-    thread_details
+    frida_rs_sys::process::enumerate_threads()
+        .iter()
+        .map(frida_rs_sys::thread::ThreadDetails::from)
+        .map(crate::thread::ThreadDetails::from)
+        .collect()
 }
 
 ///Get all loaded modules in the instrumented process.
@@ -91,15 +87,11 @@ pub fn enumerate_threads() -> Vec<thread::ThreadDetails> {
 ///This is the equivalent to calling `Process.enumerateModules()` in the
 ///JavaScript API.
 pub fn enumerate_modules() -> Vec<module::Module> {
-    let modules = process::enumerate_modules();
-    let mut m = Vec::new();
-
-    for module in modules.iter() {
-        let md = module::Module::from_sys(frida_rs_sys::module::Module::from(module));
-        m.push(md);
-    }
-
-    m
+    frida_rs_sys::process::enumerate_modules()
+        .iter()
+        .map(frida_rs_sys::module::Module::from)
+        .map(crate::module::Module::from_sys)
+        .collect()
 }
 
 ///Get a module by name.
@@ -154,16 +146,11 @@ pub fn get_range_by_address(address: &nativepointer::NativePointer) -> Option<Ra
 ///This is the equivalent to calling `Process.enumerateRanges()` in the
 ///JavaScript API.
 pub fn enumerate_ranges(protection: &str) -> Vec<RangeDetails> {
-    let mut range_details = Vec::new();
-
-    let ranges = process::enumerate_ranges(protection);
-
-    for range in ranges.iter() {
-        let i = RangeDetails::from(frida_rs_sys::range::RangeDetails::from(range));
-        range_details.push(i);
-    }
-
-    range_details
+    frida_rs_sys::process::enumerate_ranges(protection)
+        .iter()
+        .map(frida_rs_sys::range::RangeDetails::from)
+        .map(crate::range::RangeDetails::from)
+        .collect()
 }
 
 ///Get all individual memory allocations known to the system heap.
@@ -171,14 +158,9 @@ pub fn enumerate_ranges(protection: &str) -> Vec<RangeDetails> {
 ///This is the equivalent to calling `Process.enumerateMallocRanges()` in the
 ///JavaScript API.
 pub fn enumerate_malloc_ranges() -> Vec<RangeDetails> {
-    let mut range_details = Vec::new();
-
-    let ranges = process::enumerate_malloc_ranges();
-
-    for range in ranges.iter() {
-        let i = RangeDetails::from(frida_rs_sys::range::RangeDetails::from(range));
-        range_details.push(i);
-    }
-
-    range_details
+    frida_rs_sys::process::enumerate_malloc_ranges()
+        .iter()
+        .map(frida_rs_sys::range::RangeDetails::from)
+        .map(crate::range::RangeDetails::from)
+        .collect()
 }

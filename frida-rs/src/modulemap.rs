@@ -83,15 +83,12 @@ impl ModuleMap {
     ///
     ///This is equivalent to calling `ModuleMap.values` in the JavaScript API.
     pub fn values(&self) -> Vec<crate::module::Module> {
-        let mut m = Vec::new();
-
-        let modules = self.0.values();
-        for module in modules.iter() {
-            let md = crate::module::Module::from_sys(frida_rs_sys::module::Module::from(module));
-            m.push(md);
-        }
-
-        m
+        self.0
+            .values()
+            .iter()
+            .map(frida_rs_sys::module::Module::from)
+            .map(crate::module::Module::from_sys)
+            .collect()
     }
 }
 

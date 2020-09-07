@@ -86,19 +86,15 @@ pub enum Backtracer {
 ///
 ///This is equivalent to calling `Thread.backtrace` in the JavaScript API.
 pub fn backtrace(ctx: Option<CpuContext>, backtracer: Backtracer) -> Vec<NativePointer> {
-    let mut ret = Vec::new();
-
     let i = match backtracer {
         Backtracer::ACCURATE => &frida_rs_sys::thread::BacktracerAccurate,
         Backtracer::FUZZY => &frida_rs_sys::thread::BacktracerFuzzy,
     };
 
     let c = ctx.map(|s| s.into_sys());
-    let bt = frida_rs_sys::thread::backtrace(c, &*i);
 
-    for i in bt.iter() {
-        ret.push(NativePointer::from_jsvalue(i));
-    }
-
-    ret
+    frida_rs_sys::thread::backtrace(c, &*i)
+        .iter()
+        .map(NativePointer::from_jsvalue)
+        .collect()
 }

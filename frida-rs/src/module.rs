@@ -7,7 +7,7 @@ use crate::fromsys::FromSys;
 use crate::nativepointer::NativePointer;
 use crate::range::RangeDetails;
 use frida_rs_sys::module;
-use wasm_bindgen::{JsCast, JsValue};
+use wasm_bindgen::JsValue;
 
 ///Get the base address of the module named `name`.
 ///
@@ -111,17 +111,12 @@ impl Module {
     ///This is the equivalent to calling `enumerateExports()` in the
     ///JavaScript API.
     pub fn enumerate_exports(&self) -> Vec<ExportDetails> {
-        let mut export_details = Vec::new();
-
-        let m: module::Module = self.sys.clone().unchecked_into();
-        let exports = m.enumerate_exports();
-
-        for export in exports.iter() {
-            let i = ExportDetails::from(module::ExportDetails::from(export));
-            export_details.push(i);
-        }
-
-        export_details
+        self.sys
+            .enumerate_exports()
+            .iter()
+            .map(frida_rs_sys::module::ExportDetails::from)
+            .map(ExportDetails::from)
+            .collect()
     }
 
     ///Get all imports of the module.
@@ -129,17 +124,12 @@ impl Module {
     ///This is the equivalent to calling `enumerateImports()` in the
     ///JavaScript API.
     pub fn enumerate_imports(&self) -> Vec<ImportDetails> {
-        let mut import_details = Vec::new();
-
-        let m: module::Module = self.sys.clone().unchecked_into();
-        let imports = m.enumerate_imports();
-
-        for import in imports.iter() {
-            let i = ImportDetails::from(module::ImportDetails::from(import));
-            import_details.push(i);
-        }
-
-        import_details
+        self.sys
+            .enumerate_imports()
+            .iter()
+            .map(frida_rs_sys::module::ImportDetails::from)
+            .map(ImportDetails::from)
+            .collect()
     }
 
     ///Get all symbols of the module.
@@ -147,17 +137,12 @@ impl Module {
     ///This is the equivalent to calling `enumerateSymbols()` in the
     ///JavaScript API.
     pub fn enumerate_symbols(&self) -> Vec<SymbolDetails> {
-        let mut symbol_details = Vec::new();
-
-        let m: module::Module = self.sys.clone().unchecked_into();
-        let symbols = m.enumerate_symbols();
-
-        for symbol in symbols.iter() {
-            let i = SymbolDetails::from(module::SymbolDetails::from(symbol));
-            symbol_details.push(i);
-        }
-
-        symbol_details
+        self.sys
+            .enumerate_symbols()
+            .iter()
+            .map(frida_rs_sys::module::SymbolDetails::from)
+            .map(SymbolDetails::from)
+            .collect()
     }
 
     ///Get all memory ranges satisfying `protection`.
@@ -168,17 +153,12 @@ impl Module {
     ///This is the equivalent to calling `enumerateRanges()` in the
     ///JavaScript API.
     pub fn enumerate_ranges(&self, protection: &str) -> Vec<RangeDetails> {
-        let mut range_details = Vec::new();
-
-        let m: module::Module = self.sys.clone().unchecked_into();
-        let ranges = m.enumerate_ranges(protection);
-
-        for range in ranges.iter() {
-            let i = RangeDetails::from(frida_rs_sys::range::RangeDetails::from(range));
-            range_details.push(i);
-        }
-
-        range_details
+        self.sys
+            .enumerate_ranges(protection)
+            .iter()
+            .map(frida_rs_sys::range::RangeDetails::from)
+            .map(RangeDetails::from)
+            .collect()
     }
 
     //    // // TODO: This is not actually finding any exports and appears to be a Frida
