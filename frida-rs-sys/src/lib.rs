@@ -3,6 +3,7 @@ pub mod cpu;
 pub mod frida;
 pub mod interceptor;
 pub mod module;
+pub mod modulemap;
 pub mod nativepointer;
 pub mod process;
 pub mod range;

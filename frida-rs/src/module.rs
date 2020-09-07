@@ -82,6 +82,29 @@ impl FromSys<frida_rs_sys::module::Module> for Module {
     }
 }
 
+impl From<frida_rs_sys::module::Module> for Module {
+    fn from(m: frida_rs_sys::module::Module) -> Self {
+        Self::from_sys(m)
+    }
+}
+
+// TODO: This feels like a bad hack... see if there is a better way...
+impl wasm_bindgen::describe::WasmDescribe for Module {
+    fn describe() {
+        module::Module::describe()
+    }
+}
+
+// TODO: This feels like a bad hack... see if there is a better way...
+impl wasm_bindgen::convert::FromWasmAbi for Module {
+    type Abi = u32;
+
+    unsafe fn from_abi(js: u32) -> Module {
+        let i = module::Module::from_abi(js);
+        Module::from_sys(i)
+    }
+}
+
 impl Module {
     ///Get all exports of the module.
     ///

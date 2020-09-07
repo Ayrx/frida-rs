@@ -13,6 +13,7 @@ pub mod console;
 pub mod cpu;
 pub mod interceptor;
 pub mod module;
+pub mod modulemap;
 pub mod process;
 pub mod range;
 pub mod thread;
