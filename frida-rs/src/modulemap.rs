@@ -36,11 +36,16 @@ impl ModuleMap {
     }
 
     ///Check if `address` belongs to any of the contained modules.
+    ///
+    ///This is equivalent to calling `ModuleMap.has` in the JavaScript API.
     pub fn has(&self, address: &NativePointer) -> bool {
         self.0.has(address.to_sys())
     }
 
     ///Get [`Module`](crate::module::Module) that `address` belongs to.
+    ///
+    ///This is equivalent to calling `ModuleMap.find` / `ModuleMap.get` in the
+    ///JavaScript API.
     pub fn get_module(&self, address: &NativePointer) -> Option<crate::module::Module> {
         let ret = self.0.get_module(address.to_sys());
 
@@ -52,22 +57,31 @@ impl ModuleMap {
     }
 
     ///Get the name of the module that `address` belongs to.
+    ///This is equivalent to calling `ModuleMap.findName` / `ModuleMap.getName`
+    ///in the JavaScript API.
     pub fn get_name(&self, address: &NativePointer) -> Option<String> {
         self.0.get_name(address.to_sys())
     }
 
     ///Get the path of the module that `address` belongs to.
+    ///
+    ///This is equivalent to calling `ModuleMap.findPath` / `ModuleMap.getPath`
+    ///in the JavaScript API.
     pub fn get_path(&self, address: &NativePointer) -> Option<String> {
         self.0.get_path(address.to_sys())
     }
 
     ///Update the module map.
+    ///
+    ///This is equivalent to calling `ModuleMap.update` in the JavaScript API.
     pub fn update(&self) {
         self.0.update();
     }
 
     ///Returns an array with the [`Module`](crate::module::Module) objects
     ///currently in the map.
+    ///
+    ///This is equivalent to calling `ModuleMap.values` in the JavaScript API.
     pub fn values(&self) -> Vec<crate::module::Module> {
         let mut m = Vec::new();
 
