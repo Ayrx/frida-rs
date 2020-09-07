@@ -4,6 +4,7 @@
 //!grouped under
 //![https://frida.re/docs/javascript-api/#process](https://frida.re/docs/javascript-api/#process).
 
+use crate::fromsys::FromSys;
 use crate::module;
 use crate::nativepointer;
 use crate::range::RangeDetails;
@@ -94,7 +95,7 @@ pub fn enumerate_modules() -> Vec<module::Module> {
     let mut m = Vec::new();
 
     for module in modules.iter() {
-        let md = module::Module::from(frida_rs_sys::module::Module::from(module));
+        let md = module::Module::from_sys(frida_rs_sys::module::Module::from(module));
         m.push(md);
     }
 
@@ -112,7 +113,7 @@ pub fn get_module_by_name(name: &str) -> Option<module::Module> {
         return None;
     }
 
-    Some(module::Module::from(ret))
+    Some(module::Module::from_sys(ret))
 }
 
 ///Get a module by address.
@@ -126,7 +127,7 @@ pub fn get_module_by_address(address: &nativepointer::NativePointer) -> Option<m
         return None;
     }
 
-    Some(module::Module::from(ret))
+    Some(module::Module::from_sys(ret))
 }
 
 ///Get memory range containing `address`.

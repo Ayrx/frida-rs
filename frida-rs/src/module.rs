@@ -63,18 +63,22 @@ pub struct Module {
     ///Full filesystem path of module.
     pub path: String,
 
-    _ref: module::Module,
+    sys: frida_rs_sys::module::Module,
 }
 
-impl From<module::Module> for Module {
-    fn from(m: module::Module) -> Self {
-        Module {
+impl FromSys<frida_rs_sys::module::Module> for Module {
+    fn from_sys(m: frida_rs_sys::module::Module) -> Self {
+        Self {
             name: m.name(),
             base: NativePointer::from_sys(m.base()),
             size: m.size(),
             path: m.path(),
-            _ref: m,
+            sys: m,
         }
+    }
+
+    fn into_sys(self) -> frida_rs_sys::module::Module {
+        self.sys
     }
 }
 
@@ -86,7 +90,7 @@ impl Module {
     pub fn enumerate_exports(&self) -> Vec<ExportDetails> {
         let mut export_details = Vec::new();
 
-        let m: module::Module = self._ref.clone().unchecked_into();
+        let m: module::Module = self.sys.clone().unchecked_into();
         let exports = m.enumerate_exports();
 
         for export in exports.iter() {
@@ -104,7 +108,7 @@ impl Module {
     pub fn enumerate_imports(&self) -> Vec<ImportDetails> {
         let mut import_details = Vec::new();
 
-        let m: module::Module = self._ref.clone().unchecked_into();
+        let m: module::Module = self.sys.clone().unchecked_into();
         let imports = m.enumerate_imports();
 
         for import in imports.iter() {
@@ -122,7 +126,7 @@ impl Module {
     pub fn enumerate_symbols(&self) -> Vec<SymbolDetails> {
         let mut symbol_details = Vec::new();
 
-        let m: module::Module = self._ref.clone().unchecked_into();
+        let m: module::Module = self.sys.clone().unchecked_into();
         let symbols = m.enumerate_symbols();
 
         for symbol in symbols.iter() {
@@ -143,7 +147,7 @@ impl Module {
     pub fn enumerate_ranges(&self, protection: &str) -> Vec<RangeDetails> {
         let mut range_details = Vec::new();
 
-        let m: module::Module = self._ref.clone().unchecked_into();
+        let m: module::Module = self.sys.clone().unchecked_into();
         let ranges = m.enumerate_ranges(protection);
 
         for range in ranges.iter() {
