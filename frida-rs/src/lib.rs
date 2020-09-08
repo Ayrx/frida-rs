@@ -9,6 +9,7 @@
 mod fromsys;
 mod nativepointer;
 
+pub mod apiresolver;
 pub mod console;
 pub mod cpu;
 pub mod debugsymbol;
